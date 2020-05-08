@@ -1,36 +1,21 @@
 package pl.mbierut;
 
-import java.time.LocalDateTime;
-
 public class TransactionService {
+    public String fulfillOrder(Order order, Wallet wallet){
 
-    public String buyCurrency(String code, double amount, double rate, Wallet wallet) {
-        if (amount <= 0.0 || rate <= 0.0){
-            return "Error: non-positive numbers";
+        if (order.getRate() <= 0){
+            return "Rate non-positive";
         }
-        if (wallet.getFundsInPLN() < amount*rate){
-            return "Error: insufficient funds";
-        }
-        Currency cur = wallet.findCurrency(code);
-        if (cur != null){
-            cur.setAmount(cur.getAmount() + amount);
-        } else {
-            wallet.getCurrencyList().add(new Currency(amount, code));
-        }
-        return LocalDateTime.now() + ": " + amount + code + " were bought for " + amount*rate + "PLN";
-    }
 
-    public String sellCurrency(String code, double amount, double rate, Wallet wallet) {
-        if (amount <= 0.0 || rate <= 0.0){
-            return "Error: non-positive numbers";
+        if (!wallet.getCurrencies().containsKey(order.getCurrencySell())
+                || order.getAmountToSell() > wallet.getCurrencies().get(order.getCurrencySell())){
+            return "Insufficient funds";
         }
-        Currency cur = wallet.findCurrency(code);
-        if (cur == null || cur.getAmount() < amount){
-            return "Error: insufficient funds";
-        }
-        wallet.setFundsInPLN(wallet.getFundsInPLN() + amount*rate);
-        cur.setAmount(cur.getAmount() - amount);
-        return LocalDateTime.now() + ": " + amount + code + " were sold for " + amount*rate + "PLN";
+        wallet.getCurrencies().merge(order.getCurrencyBuy(), order.getAmountToSell()*order.getRate(), Double::sum);
+        double curSubtractedFrom = wallet.getCurrencies().get(order.getCurrencySell());
+        wallet.getCurrencies().put(order.getCurrencySell(), curSubtractedFrom - order.getAmountToSell());
+
+        return "Transaction successful";
     }
 
 }

@@ -7,11 +7,11 @@ public class User {
     private Wallet wallet;
     private TransactionHistory transactionHistory;
 
-    public User(String username, String email, String password, double fundsInPLN) {
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.wallet = new Wallet(fundsInPLN);
+        this.wallet = new Wallet();
         this.transactionHistory = new TransactionHistory();
     }
 

@@ -1,44 +1,22 @@
 package pl.mbierut;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.HashMap;
+import java.util.Map;
 public class Wallet {
-    private double fundsInPLN;
-    private List<Currency> currencyList;
+    public Map<Currency, Double> currencies;
 
-    public Currency findCurrency(String code){
-        for (Currency currency : currencyList){
-            if (code.equals(currency.getCode())){
-                return currency;
-            }
-        }
-        return null;
+    public Wallet() {
+        this.currencies = new HashMap<>();
     }
 
-    public double getFundsInPLN() {
-        return fundsInPLN;
+    public Map<Currency, Double> getCurrencies() {
+        return currencies;
     }
 
-    public void setFundsInPLN(double fundsInPLN) {
-        this.fundsInPLN = fundsInPLN;
-    }
-
-    public List<Currency> getCurrencyList() {
-        return currencyList;
-    }
-
-    public void setCurrencyList(List<Currency> currencyList) {
-        this.currencyList = currencyList;
-    }
-
-    public Wallet(double fundsInPLN) {
-        this.fundsInPLN = fundsInPLN;
-        this.currencyList = new ArrayList<>();
-    }
-
-    public Wallet(double fundsInPLN, List<Currency> currencyList) {
-        this.fundsInPLN = fundsInPLN;
-        this.currencyList = currencyList;
+    @Override
+    public String toString() {
+        return "Wallet{" +
+                "currencies=" + currencies +
+                '}';
     }
 }

@@ -5,12 +5,21 @@ public class Main {
     public static void main(String[] args) {
         TransactionService service = new TransactionService();
 
-//        User user1 = new User("One", "one.mail", "1", 100);
-//
-//        System.out.println(service.buyCurrency("USD", 11, 4.2, user1.getWallet()));
-//        System.out.println(service.sellCurrency("GBP", 5, 5, user1.getWallet()));
-//        System.out.println(service.sellCurrency("USD", 5, 5.1, user1.getWallet()));
-//        System.out.println(service.buyCurrency("QWE", -10, 8, user1.getWallet()));
-//        System.out.println(user1.getWallet().getFundsInPLN());
+        User user1 = new User("One", "one@one.com", "1");
+        user1.getWallet().getCurrencies().put(Currency.PLN, 100.0);
+        user1.getWallet().getCurrencies().put(Currency.AUD, 10.0);
+        user1.getWallet().getCurrencies().put(Currency.CAD, 35.1);
+        user1.getWallet().getCurrencies().put(Currency.JPY, 995.0);
+        user1.getWallet().getCurrencies().put(Currency.SEK, 3.5);
+
+
+        Order order1 = new Order(Currency.PLN, Currency.USD, 5.0,15.0);
+        System.out.println(service.fulfillOrder(order1, user1.getWallet()));
+        System.out.println(user1.getWallet().getCurrencies().get(Currency.PLN));
+        System.out.println(user1.getWallet().getCurrencies().get(Currency.USD));
+        System.out.println(user1.getWallet());
+
+
+
     }
 }
