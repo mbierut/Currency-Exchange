@@ -5,6 +5,12 @@ import java.util.Map;
 public class Wallet {
     public Map<Currency, Double> currencies;
 
+    public void fulfillOrder(Order order, Wallet wallet) throws InsufficientFundsException {
+        wallet.getCurrencies().merge(order.getCurrencyBuy(), order.getAmountToSell()*order.getRate(), Double::sum);
+        double curSubtractedFrom = wallet.getCurrencies().get(order.getCurrencySell());
+        wallet.getCurrencies().put(order.getCurrencySell(), curSubtractedFrom - order.getAmountToSell());
+    }
+
     public Wallet() {
         this.currencies = new HashMap<>();
     }
@@ -19,4 +25,5 @@ public class Wallet {
                 "currencies=" + currencies +
                 '}';
     }
+
 }
