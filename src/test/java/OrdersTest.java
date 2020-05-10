@@ -1,13 +1,14 @@
+import org.junit.Assert;
 import org.junit.Test;
-import pl.mbierut.Currency;
-import pl.mbierut.InsufficientFundsException;
-import pl.mbierut.Order;
-import pl.mbierut.User;
+import pl.mbierut.exceptions.InsufficientFundsException;
+import pl.mbierut.models.Currency;
+import pl.mbierut.models.Order;
+import pl.mbierut.models.User;
 
 public class OrdersTest {
 
     @Test
-    public void OrderShouldProcessCorrectly(){
+    public void orderShouldProcessCorrectly(){
         User testUser = new User("Test", "test@test.com", "1");
         testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
         testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
@@ -17,14 +18,20 @@ public class OrdersTest {
 
         Order order1 = new Order(Currency.PLN, Currency.USD, 5.0,15.0);
         try {
-            testUser.getWallet().fulfillOrder(order1, testUser.getWallet());
+            testUser.getWallet().fulfillOrder(order1);
+            Assert.assertEquals(85.0, testUser.getWallet().getCurrencies().get(Currency.PLN), 0.0);
+            Assert.assertEquals(75.0, testUser.getWallet().getCurrencies().get(Currency.USD), 0.0);
         } catch (InsufficientFundsException exception) {
             exception.printStackTrace();
         }
+    }
 
-        System.out.println(testUser.getWallet().getCurrencies().get(Currency.PLN));
-        System.out.println(testUser.getWallet().getCurrencies().get(Currency.USD));
-        System.out.println(testUser.getWallet());
+    @Test(expected = InsufficientFundsException.class)
+    public void insufficientFundsTestThrownProperly() throws InsufficientFundsException{
+        User testUser = new User("Test", "test@test.com", "1");
+        testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
 
+        Order order2 = new Order(Currency.AUD, Currency.PLN, 2.1, 30);
+        testUser.getWallet().fulfillOrder(order2);
     }
 }

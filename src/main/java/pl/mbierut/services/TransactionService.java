@@ -1,4 +1,4 @@
-package pl.mbierut;
+package pl.mbierut.services;
 
 public class TransactionService {
 }

@@ -1,4 +1,4 @@
-package pl.mbierut;
+package pl.mbierut.models;
 
 public class User {
     private String username;

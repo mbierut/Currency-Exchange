@@ -1,4 +1,4 @@
-package pl.mbierut;
+package pl.mbierut.exceptions;
 
 public class InsufficientFundsException extends Exception{
     public InsufficientFundsException(String errorMessage){
