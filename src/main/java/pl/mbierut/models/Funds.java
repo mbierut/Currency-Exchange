@@ -19,4 +19,9 @@ public class Funds {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
+    public Funds(Currency currency, double amount) {
+        this.currency = currency;
+        this.amount = amount;
+    }
 }

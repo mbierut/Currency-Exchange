@@ -3,18 +3,16 @@ package pl.mbierut.models;
 import java.time.LocalDateTime;
 
 public class Order {
-    private Currency currencySell;
+    private Funds fundsToSell;
     private Currency currencyBuy;
     private double rate;
-    private double amountToSell;
     private LocalDateTime date;
 
 
-    public Order(Currency currencySell, Currency currencyBuy, double rate, double amountToSell) {
-        this.currencySell = currencySell;
+    public Order(Funds fundsToSell, Currency currencyBuy, double rate) {
+        this.fundsToSell = fundsToSell;
         this.currencyBuy = currencyBuy;
         this.rate = rate;
-        this.amountToSell = amountToSell;
         date = LocalDateTime.now();
     }
 
@@ -23,12 +21,12 @@ public class Order {
         return super.toString();
     }
 
-    public Currency getCurrencySell() {
-        return currencySell;
+    public Funds getFundsToSell() {
+        return fundsToSell;
     }
 
-    public void setCurrencySell(Currency currencySell) {
-        this.currencySell = currencySell;
+    public void setFundsToSell(Funds fundsToSell) {
+        this.fundsToSell = fundsToSell;
     }
 
     public Currency getCurrencyBuy() {
@@ -45,14 +43,6 @@ public class Order {
 
     public void setRate(double rate) {
         this.rate = rate;
-    }
-
-    public double getAmountToSell() {
-        return amountToSell;
-    }
-
-    public void setAmountToSell(double amountToSell) {
-        this.amountToSell = amountToSell;
     }
 
     public LocalDateTime getDate() {
