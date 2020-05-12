@@ -1,5 +1,8 @@
 package pl.mbierut.models;
 
+import lombok.Getter;
+
+@Getter
 public class User {
     private String username;
     private String email;
@@ -13,25 +16,5 @@ public class User {
         this.password = password;
         this.wallet = new Wallet();
         this.transactionHistory = new TransactionHistory();
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Wallet getWallet() {
-        return wallet;
-    }
-
-    public TransactionHistory getTransactionHistory() {
-        return transactionHistory;
     }
 }

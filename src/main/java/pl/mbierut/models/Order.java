@@ -1,7 +1,12 @@
 package pl.mbierut.models;
 
+import lombok.Getter;
+import lombok.ToString;
+
 import java.time.LocalDateTime;
 
+@Getter
+@ToString
 public class Order {
     private Funds fundsToSell;
     private Currency currencyBuy;
@@ -16,41 +21,5 @@ public class Order {
         date = LocalDateTime.now();
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
-    public Funds getFundsToSell() {
-        return fundsToSell;
-    }
-
-    public void setFundsToSell(Funds fundsToSell) {
-        this.fundsToSell = fundsToSell;
-    }
-
-    public Currency getCurrencyBuy() {
-        return currencyBuy;
-    }
-
-    public void setCurrencyBuy(Currency currencyBuy) {
-        this.currencyBuy = currencyBuy;
-    }
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
 
 }
