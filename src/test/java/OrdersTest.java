@@ -5,6 +5,7 @@ import pl.mbierut.models.Currency;
 import pl.mbierut.models.Funds;
 import pl.mbierut.models.Order;
 import pl.mbierut.models.User;
+import pl.mbierut.services.TransactionService;
 
 public class OrdersTest {
 
@@ -17,12 +18,14 @@ public class OrdersTest {
         testUser.getWallet().getCurrencies().put(Currency.JPY, 995.0);
         testUser.getWallet().getCurrencies().put(Currency.SEK, 3.5);
 
-        Funds funds1 = new Funds(Currency.PLN, 15.0);
-        Order order1 = new Order(funds1, Currency.USD, 5.0);
+        Funds funds1 = new Funds(Currency.CAD, 15.0);
+        Order order1 = new Order(funds1, Currency.USD);
         try {
             testUser.getWallet().fulfillOrder(order1);
-            Assert.assertEquals(85.0, testUser.getWallet().getCurrencies().get(Currency.PLN), 0.0);
-            Assert.assertEquals(75.0, testUser.getWallet().getCurrencies().get(Currency.USD), 0.0);
+            Assert.assertEquals(35.1 - 15.0,
+                    testUser.getWallet().getCurrencies().get(Currency.CAD), 0.0);
+            Assert.assertEquals(15.0 * Currency.CAD.getRate() / Currency.USD.getRate(),
+                    testUser.getWallet().getCurrencies().get(Currency.USD), 0.0);
         } catch (InsufficientFundsException exception) {
             exception.printStackTrace();
         }
@@ -34,7 +37,7 @@ public class OrdersTest {
         testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
 
         Funds funds2 = new Funds(Currency.AUD, 30.0);
-        Order order2 = new Order(funds2, Currency.PLN, 2.1);
+        Order order2 = new Order(funds2, Currency.PLN);
         testUser.getWallet().fulfillOrder(order2);
     }
 
@@ -55,8 +58,27 @@ public class OrdersTest {
 
         Assert.assertEquals(1.0, user1.getWallet().getCurrencies().get(Currency.PLN), 0.0);
         Assert.assertEquals(19.0, user2.getWallet().getCurrencies().get(Currency.PLN), 0.0);
+    }
 
+    @Test
+    public void makeOrderWorksAndWritesInTransactionHistory(){
+        User testUser = new User("Test", "test@test.com", "1");
+        testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
+        testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
+        testUser.getWallet().getCurrencies().put(Currency.CAD, 35.1);
+        testUser.getWallet().getCurrencies().put(Currency.JPY, 995.0);
+        testUser.getWallet().getCurrencies().put(Currency.SEK, 3.5);
 
+        Funds funds1 = new Funds(Currency.CAD, 15.0);
+        Order order1 = new Order(funds1, Currency.USD);
+        TransactionService service = new TransactionService();
+        service.makeOrder(order1, testUser);
+        Assert.assertEquals(35.1 - 15.0,
+                testUser.getWallet().getCurrencies().get(Currency.CAD), 0.0);
+        Assert.assertEquals(15.0 * Currency.CAD.getRate() / Currency.USD.getRate(),
+                testUser.getWallet().getCurrencies().get(Currency.USD), 0.0);
+        Assert.assertNotNull(testUser.getTransactionHistory());
+        System.out.println(testUser.getTransactionHistory());
     }
 
 }

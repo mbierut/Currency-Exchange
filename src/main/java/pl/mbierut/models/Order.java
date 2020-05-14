@@ -10,16 +10,12 @@ import java.time.LocalDateTime;
 public class Order {
     private Funds fundsToSell;
     private Currency currencyBuy;
-    private double rate;
     private LocalDateTime date;
 
-
-    public Order(Funds fundsToSell, Currency currencyBuy, double rate) {
+    public Order(Funds fundsToSell, Currency currencyBuy) {
         this.fundsToSell = fundsToSell;
         this.currencyBuy = currencyBuy;
-        this.rate = rate;
         date = LocalDateTime.now();
     }
-
 
 }

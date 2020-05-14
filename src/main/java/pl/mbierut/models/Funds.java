@@ -1,8 +1,10 @@
 package pl.mbierut.models;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class Funds {
     public Currency currency;
     public double amount;

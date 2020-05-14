@@ -14,7 +14,8 @@ public class Wallet {
         if (curSubtractedFrom - order.getFundsToSell().getAmount() < 0){
             throw new InsufficientFundsException("Insufficient funds");
         }
-        this.getCurrencies().merge(order.getCurrencyBuy(), order.getFundsToSell().getAmount()*order.getRate(), Double::sum);
+        this.getCurrencies().merge(order.getCurrencyBuy(),
+                order.getFundsToSell().getAmount()*order.getFundsToSell().getCurrency().getRate()/order.getCurrencyBuy().getRate(), Double::sum);
         this.getCurrencies().put(order.getFundsToSell().getCurrency(), curSubtractedFrom - order.getFundsToSell().getAmount());
     }
 
