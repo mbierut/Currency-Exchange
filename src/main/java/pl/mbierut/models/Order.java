@@ -18,4 +18,8 @@ public class Order {
         date = LocalDateTime.now();
     }
 
+    public double getFundsValue(){
+        return this.getFundsToSell().getValue()/this.getCurrencyBuy().getRate();
+    }
+
 }
