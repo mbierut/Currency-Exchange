@@ -81,4 +81,21 @@ public class OrdersTest {
         System.out.println(testUser.getTransactionHistory());
     }
 
+    @Test
+    public void addingFundsWorks(){
+        User testUser = new User("Test", "test@test.com", "1");
+        testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
+        testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
+        testUser.getWallet().addFunds(new Funds(Currency.SEK, 20.0));
+        Assert.assertEquals(20.0, testUser.getWallet().getCurrencies().get(Currency.SEK), 0.0);
+    }
+
+    @Test
+    public void subtractingFundsWorks() throws InsufficientFundsException {
+        User testUser = new User("Test", "test@test.com", "1");
+        testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
+        testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
+        testUser.getWallet().withdrawFunds(new Funds(Currency.AUD, 9.0));
+        Assert.assertEquals(1.0, testUser.getWallet().getCurrencies().get(Currency.AUD), 0.0);
+    }
 }

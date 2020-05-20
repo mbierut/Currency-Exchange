@@ -36,6 +36,20 @@ public class Wallet {
         logger.info("Sent {}{}", funds.getAmount(), funds.getCurrency());
     }
 
+    public void addFunds(Funds funds){
+        this.getCurrencies().merge(funds.getCurrency(), funds.getAmount(), Double::sum);
+        logger.info("Added {}{} to the wallet", funds.getAmount(), funds.getCurrency());
+    }
+
+    public void withdrawFunds(Funds funds) throws InsufficientFundsException{
+        if (this.getCurrencies().get(funds.getCurrency()) - funds.getAmount() < 0){
+            logger.error("Insufficient funds");
+            throw new InsufficientFundsException("Insufficient funds");
+        }
+        this.getCurrencies().put(funds.getCurrency(), this.getCurrencies().get(funds.getCurrency()) - funds.getAmount());
+        logger.info("Deposited {}{}", funds.getAmount(), funds.getCurrency());
+    }
+
     public Wallet() {
         this.currencies = new HashMap<>();
         for (Currency currency : Currency.values()){
