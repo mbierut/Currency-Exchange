@@ -18,7 +18,7 @@ public class User {
         this.transactionHistory = new TransactionHistory();
     }
 
-    public static String showWallet(User user){
-        return user.getWallet().toString();
+    public String showWallet() {
+        return this.getWallet().toString();
     }
 }

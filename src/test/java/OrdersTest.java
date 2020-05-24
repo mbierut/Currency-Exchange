@@ -10,7 +10,7 @@ import pl.mbierut.services.TransactionService;
 public class OrdersTest {
 
     @Test
-    public void orderShouldProcessCorrectly(){
+    public void orderShouldProcessCorrectly() {
         User testUser = new User("Test", "test@test.com", "1");
         testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
         testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
@@ -24,7 +24,7 @@ public class OrdersTest {
             testUser.getWallet().fulfillOrder(order1);
             Assert.assertEquals(35.1 - 15.0,
                     testUser.getWallet().getCurrencies().get(Currency.CAD), 0.0);
-            Assert.assertEquals(15.0 * Currency.CAD.getRate() / Currency.USD.getRate(),
+            Assert.assertEquals(15.0 * Currency.CAD.getSellRate() / Currency.USD.getBuyRate(),
                     testUser.getWallet().getCurrencies().get(Currency.USD), 0.0);
         } catch (InsufficientFundsException exception) {
             exception.printStackTrace();
@@ -32,7 +32,7 @@ public class OrdersTest {
     }
 
     @Test(expected = InsufficientFundsException.class)
-    public void insufficientFundsTestThrownProperly() throws InsufficientFundsException{
+    public void insufficientFundsTestThrownProperly() throws InsufficientFundsException {
         User testUser = new User("Test", "test@test.com", "1");
         testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
 
@@ -42,7 +42,7 @@ public class OrdersTest {
     }
 
     @Test
-    public void sendFundsSendsFundsCorrectly(){
+    public void sendFundsSendsFundsCorrectly() {
         User user1 = new User("test1", "test@test.com", "1");
         user1.getWallet().getCurrencies().put(Currency.PLN, 10.0);
 
@@ -61,7 +61,7 @@ public class OrdersTest {
     }
 
     @Test
-    public void makeOrderWorksAndWritesInTransactionHistory(){
+    public void makeOrderWorksAndWritesInTransactionHistory() {
         User testUser = new User("Test", "test@test.com", "1");
         testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
         testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
@@ -75,14 +75,14 @@ public class OrdersTest {
         service.makeOrder(order1, testUser);
         Assert.assertEquals(35.1 - 15.0,
                 testUser.getWallet().getCurrencies().get(Currency.CAD), 0.0);
-        Assert.assertEquals(15.0 * Currency.CAD.getRate() / Currency.USD.getRate(),
+        Assert.assertEquals(15.0 * Currency.CAD.getSellRate() / Currency.USD.getBuyRate(),
                 testUser.getWallet().getCurrencies().get(Currency.USD), 0.0);
         Assert.assertNotNull(testUser.getTransactionHistory());
         System.out.println(testUser.getTransactionHistory());
     }
 
     @Test
-    public void addingFundsWorks(){
+    public void addingFundsWorks() {
         User testUser = new User("Test", "test@test.com", "1");
         testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
         testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
@@ -97,5 +97,26 @@ public class OrdersTest {
         testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
         testUser.getWallet().withdrawFunds(new Funds(Currency.AUD, 9.0));
         Assert.assertEquals(1.0, testUser.getWallet().getCurrencies().get(Currency.AUD), 0.0);
+    }
+
+    @Test
+    public void showingRatesWorks() {
+        TransactionService service = new TransactionService();
+        Assert.assertNotNull(service.getBuyAndSellRates(Currency.JPY));
+    }
+
+    @Test
+    public void transactionListAndSearchingByNumberFromItWork() {
+        TransactionService service = new TransactionService();
+        User testUser = new User("Test", "test@test.com", "1");
+        testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
+        testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
+        testUser.getWallet().getCurrencies().put(Currency.CAD, 35.1);
+
+        Funds funds = new Funds(Currency.CAD, 15.0);
+        Order order = new Order(funds, Currency.USD);
+
+        service.makeOrder(order, testUser);
+        Assert.assertEquals(order.toString(), service.getTransactionByNumber(1));
     }
 }

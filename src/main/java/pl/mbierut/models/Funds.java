@@ -11,8 +11,8 @@ public class Funds {
     public Currency currency;
     public double amount;
 
-    public double getValue(){
-        return this.getAmount() * this.getCurrency().getRate();
+    double getValue() {
+        return this.getAmount() * this.getCurrency().getSellRate();
     }
 
 }

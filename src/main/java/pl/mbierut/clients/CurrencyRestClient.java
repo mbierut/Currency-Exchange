@@ -10,15 +10,22 @@ import java.io.IOException;
 public class CurrencyRestClient {
     private final String URL = "https://api.nbp.pl/api/exchangerates/rates/c/";
 
+    public double getSellRate(Currency currency) throws IOException {
+        return this.getCurrencyExchangeRate(currency, true);
+    }
 
-    public double getCurrencyExchangeRate(Currency currency) throws IOException {
-        if (Currency.PLN.equals(currency)){
+    public double getBuyRate(Currency currency) throws IOException {
+        return this.getCurrencyExchangeRate(currency, false);
+    }
+
+    private double getCurrencyExchangeRate(Currency currency, boolean sell) throws IOException {
+        if (Currency.PLN.equals(currency)) {
             return 1.0;
         }
 
         OkHttpClient client = new OkHttpClient();
 
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(URL + currency.toString() + "/today/").newBuilder();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(URL + currency.toString()).newBuilder();
 
         String url = urlBuilder.build().toString();
 
@@ -27,8 +34,10 @@ public class CurrencyRestClient {
         ResponseBody responseBody = client.newCall(request).execute().body();
         CurrencyJSON currencyJSON = objectMapper.readValue(responseBody.string(), CurrencyJSON.class);
 
-        return currencyJSON.getRates()[0].getBid() * currencyJSON.getRates()[0].getAsk() / 2.0;
-
+        if (sell) {
+            return currencyJSON.getRates()[0].getBid();
+        }
+        return currencyJSON.getRates()[0].getAsk();
     }
 
 }

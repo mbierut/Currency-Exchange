@@ -8,10 +8,11 @@ import java.io.IOException;
 public class CurrencyRestClientTest {
 
     @Test
-    public void clientCorrectlyConnectsAndGrabsData(){
+    public void clientCorrectlyConnectsAndGrabsData() {
         CurrencyRestClient testClient = new CurrencyRestClient();
         try {
-            Assert.assertNotNull(testClient.getCurrencyExchangeRate(Currency.AUD));
+            Assert.assertNotEquals(0.0, testClient.getSellRate(Currency.AUD));
+            Assert.assertNotEquals(0.0, testClient.getBuyRate(Currency.AUD));
         } catch (IOException e) {
             e.printStackTrace();
         }

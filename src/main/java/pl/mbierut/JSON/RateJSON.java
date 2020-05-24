@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RateJSON{
+public class RateJSON {
     public String no;
     public String effectiveDate;
     public double bid;
