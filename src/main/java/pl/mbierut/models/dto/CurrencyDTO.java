@@ -1,4 +1,4 @@
-package pl.mbierut.JSON;
+package pl.mbierut.models.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @JsonDeserialize
 @AllArgsConstructor
 @NoArgsConstructor
-public class CurrencyJSON {
+public class CurrencyDTO {
     public String table;
     public String currency;
     public String code;
-    public RateJSON[] rates;
+    public RateDTO[] rates;
 
 
 }

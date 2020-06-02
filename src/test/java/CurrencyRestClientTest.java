@@ -1,7 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 import pl.mbierut.clients.CurrencyRestClient;
-import pl.mbierut.models.Currency;
+import pl.mbierut.models.enums.Currency;
 
 import java.io.IOException;
 

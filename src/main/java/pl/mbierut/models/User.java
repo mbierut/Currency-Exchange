@@ -8,14 +8,14 @@ public class User {
     private String email;
     private String password;
     private Wallet wallet;
-    private TransactionHistory transactionHistory;
+    private OrderHistory orderHistory;
 
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.wallet = new Wallet();
-        this.transactionHistory = new TransactionHistory();
+        this.orderHistory = new OrderHistory();
     }
 
     public String showWallet() {

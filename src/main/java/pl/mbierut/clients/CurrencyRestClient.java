@@ -2,8 +2,8 @@ package pl.mbierut.clients;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
-import pl.mbierut.models.Currency;
-import pl.mbierut.JSON.CurrencyJSON;
+import pl.mbierut.models.enums.Currency;
+import pl.mbierut.models.dto.CurrencyDTO;
 
 import java.io.IOException;
 
@@ -32,12 +32,12 @@ public class CurrencyRestClient {
         Request request = new Request.Builder().url(url).build();
         ObjectMapper objectMapper = new ObjectMapper();
         ResponseBody responseBody = client.newCall(request).execute().body();
-        CurrencyJSON currencyJSON = objectMapper.readValue(responseBody.string(), CurrencyJSON.class);
+        CurrencyDTO currencyDTO = objectMapper.readValue(responseBody.string(), CurrencyDTO.class);
 
         if (sell) {
-            return currencyJSON.getRates()[0].getBid();
+            return currencyDTO.getRates()[0].getBid();
         }
-        return currencyJSON.getRates()[0].getAsk();
+        return currencyDTO.getRates()[0].getAsk();
     }
 
 }

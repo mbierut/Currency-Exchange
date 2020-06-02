@@ -1,4 +1,4 @@
-package pl.mbierut.models;
+package pl.mbierut.models.enums;
 
 import pl.mbierut.clients.CurrencyRestClient;
 

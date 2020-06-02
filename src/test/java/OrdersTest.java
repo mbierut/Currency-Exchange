@@ -1,10 +1,9 @@
 import org.junit.Assert;
 import org.junit.Test;
 import pl.mbierut.exceptions.InsufficientFundsException;
-import pl.mbierut.models.Currency;
-import pl.mbierut.models.Funds;
-import pl.mbierut.models.Order;
-import pl.mbierut.models.User;
+import pl.mbierut.models.*;
+import pl.mbierut.models.enums.BuyOrSell;
+import pl.mbierut.models.enums.Currency;
 import pl.mbierut.services.TransactionService;
 
 public class OrdersTest {
@@ -19,7 +18,7 @@ public class OrdersTest {
         testUser.getWallet().getCurrencies().put(Currency.SEK, 3.5);
 
         Funds funds1 = new Funds(Currency.CAD, 15.0);
-        Order order1 = new Order(funds1, Currency.USD);
+        Order order1 = new Order(funds1, Currency.USD, BuyOrSell.sell);
         try {
             testUser.getWallet().fulfillOrder(order1);
             Assert.assertEquals(35.1 - 15.0,
@@ -37,7 +36,7 @@ public class OrdersTest {
         testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
 
         Funds funds2 = new Funds(Currency.AUD, 30.0);
-        Order order2 = new Order(funds2, Currency.PLN);
+        Order order2 = new Order(funds2, Currency.PLN, BuyOrSell.sell);
         testUser.getWallet().fulfillOrder(order2);
     }
 
@@ -70,15 +69,15 @@ public class OrdersTest {
         testUser.getWallet().getCurrencies().put(Currency.SEK, 3.5);
 
         Funds funds1 = new Funds(Currency.CAD, 15.0);
-        Order order1 = new Order(funds1, Currency.USD);
+        Order order1 = new Order(funds1, Currency.USD, BuyOrSell.sell);
         TransactionService service = new TransactionService();
         service.makeOrder(order1, testUser);
         Assert.assertEquals(35.1 - 15.0,
                 testUser.getWallet().getCurrencies().get(Currency.CAD), 0.0);
         Assert.assertEquals(15.0 * Currency.CAD.getSellRate() / Currency.USD.getBuyRate(),
                 testUser.getWallet().getCurrencies().get(Currency.USD), 0.0);
-        Assert.assertNotNull(testUser.getTransactionHistory());
-        System.out.println(testUser.getTransactionHistory());
+        Assert.assertNotNull(testUser.getOrderHistory());
+        System.out.println(testUser.getOrderHistory());
     }
 
     @Test
@@ -114,9 +113,25 @@ public class OrdersTest {
         testUser.getWallet().getCurrencies().put(Currency.CAD, 35.1);
 
         Funds funds = new Funds(Currency.CAD, 15.0);
-        Order order = new Order(funds, Currency.USD);
+        Order order = new Order(funds, Currency.USD, BuyOrSell.sell);
 
         service.makeOrder(order, testUser);
         Assert.assertEquals(order.toString(), service.getTransactionByNumber(1));
+    }
+
+    @Test
+    public void buyingWorksProperly() {
+        TransactionService service = new TransactionService();
+        User testUser = new User("Test", "test@test.com", "1");
+        testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
+        testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
+        testUser.getWallet().getCurrencies().put(Currency.CAD, 35.1);
+
+        Funds funds = new Funds(Currency.USD, 5.0);
+        Order order = new Order(funds, Currency.CAD, BuyOrSell.buy);
+
+        service.makeOrder(order, testUser);
+        double actualValue = 35.1 - 5.0 * Currency.USD.getBuyRate() / Currency.CAD.getSellRate();
+        Assert.assertEquals(testUser.getWallet().getCurrencies().get(Currency.CAD), actualValue, 0.0);
     }
 }

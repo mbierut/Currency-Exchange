@@ -1,7 +1,7 @@
 package pl.mbierut.services;
 
 import pl.mbierut.exceptions.InsufficientFundsException;
-import pl.mbierut.models.Currency;
+import pl.mbierut.models.enums.Currency;
 import pl.mbierut.models.Order;
 import pl.mbierut.models.User;
 
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TransactionService {
-    private Map<Long, Order> transactionsList;
+    private Map<Long, Order> transactionsMap;
 
     public void makeOrder(Order order, User user) {
         try {
@@ -17,16 +17,20 @@ public class TransactionService {
         } catch (InsufficientFundsException e) {
             e.printStackTrace();
         }
-        user.getTransactionHistory().getList().add(order);
-        this.addTransactionToList(order);
+        user.getOrderHistory().getList().add(order);
+        this.addTransactionToMap(order);
     }
 
-    private void addTransactionToList(Order order) {
-        transactionsList.put(transactionsList.size() + 1L, order);
+    private void addTransactionToMap(Order order) {
+        transactionsMap.put(generateNewOrderNumber(), order);
+    }
+
+    private long generateNewOrderNumber() {
+        return this.transactionsMap.size() + 1L;
     }
 
     public String getTransactionByNumber(long number) {
-        return this.transactionsList.get(number).toString();
+        return this.transactionsMap.get(number).toString();
     }
 
     public double[] getBuyAndSellRates(Currency currency) {
@@ -34,6 +38,6 @@ public class TransactionService {
     }
 
     public TransactionService() {
-        this.transactionsList = new HashMap<>();
+        this.transactionsMap = new HashMap<>();
     }
 }

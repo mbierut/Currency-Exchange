@@ -8,10 +8,10 @@ import java.util.List;
 
 @Getter
 @ToString
-public class TransactionHistory {
+public class OrderHistory {
     private List<Order> list;
 
-    public TransactionHistory() {
+    public OrderHistory() {
         this.list = new ArrayList<>();
     }
 }

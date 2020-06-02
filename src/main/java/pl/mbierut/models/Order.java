@@ -2,24 +2,34 @@ package pl.mbierut.models;
 
 import lombok.Getter;
 import lombok.ToString;
+import pl.mbierut.models.enums.BuyOrSell;
+import pl.mbierut.models.enums.Currency;
 
 import java.time.LocalDateTime;
 
 @Getter
 @ToString
 public class Order {
-    private Funds fundsToSell;
-    private Currency currencyBuy;
+    private Funds fundsToBuyOrSell;
+    private Currency otherCurrencyToSellOrBuy;
+    private BuyOrSell buyOrSell;
     private LocalDateTime date;
 
-    public Order(Funds fundsToSell, Currency currencyBuy) {
-        this.fundsToSell = fundsToSell;
-        this.currencyBuy = currencyBuy;
+    public Order(Funds fundsToBuyOrSell, Currency otherCurrencyToSellOrBuy, BuyOrSell buyOrSell) {
+        this.fundsToBuyOrSell = fundsToBuyOrSell;
+        this.otherCurrencyToSellOrBuy = otherCurrencyToSellOrBuy;
+        this.buyOrSell = buyOrSell;
         date = LocalDateTime.now();
     }
 
-    double getFundsValue() {
-        return this.getFundsToSell().getValue() / this.getCurrencyBuy().getBuyRate();
+    double getFundsValueInOtherCurrency() {
+        double rate = -1.0;
+        if (this.getBuyOrSell().equals(BuyOrSell.sell)) {
+            rate = this.getOtherCurrencyToSellOrBuy().getBuyRate();
+        } else if (this.getBuyOrSell().equals(BuyOrSell.buy)) {
+            rate = this.getOtherCurrencyToSellOrBuy().getSellRate();
+        }
+        return this.getFundsToBuyOrSell().getValue(this.buyOrSell) / rate;
     }
 
 }
