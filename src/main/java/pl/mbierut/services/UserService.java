@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.mbierut.exceptions.UserAlreadyExistsException;
 import pl.mbierut.repositories.UserRepository;
-import pl.mbierut.requests.UserRegistrationRequest;
+import pl.mbierut.models.requests.UserRegistrationRequest;
 
 public class UserService {
     private UserRepository repository = new UserRepository();

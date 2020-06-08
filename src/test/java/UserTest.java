@@ -1,7 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 import pl.mbierut.exceptions.UserAlreadyExistsException;
-import pl.mbierut.requests.UserRegistrationRequest;
+import pl.mbierut.models.requests.UserRegistrationRequest;
 import pl.mbierut.services.UserService;
 
 public class UserTest {

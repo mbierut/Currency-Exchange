@@ -3,15 +3,24 @@ package pl.mbierut.models;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @ToString
 public class OrderHistory {
-    private List<Order> list;
+    private Map<Long, Order> map;
 
     public OrderHistory() {
-        this.list = new ArrayList<>();
+        this.map = new HashMap<>();
+    }
+
+    public void saveFilledOrder(Order order, long number) {
+        order.orderNumber = number;
+        this.map.put(order.getOrderNumber(), order);
+    }
+
+    public Order getOrderByNumber(long number) {
+        return this.map.get(number);
     }
 }

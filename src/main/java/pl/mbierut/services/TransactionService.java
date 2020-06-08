@@ -1,15 +1,13 @@
 package pl.mbierut.services;
 
 import pl.mbierut.exceptions.InsufficientFundsException;
-import pl.mbierut.models.enums.Currency;
 import pl.mbierut.models.Order;
+import pl.mbierut.models.OrderHistory;
 import pl.mbierut.models.User;
-
-import java.util.HashMap;
-import java.util.Map;
+import pl.mbierut.models.enums.Currency;
 
 public class TransactionService {
-    private Map<Long, Order> transactionsMap;
+    private OrderHistory orderHistory;
 
     public void makeOrder(Order order, User user) {
         try {
@@ -17,20 +15,13 @@ public class TransactionService {
         } catch (InsufficientFundsException e) {
             e.printStackTrace();
         }
-        user.getOrderHistory().getList().add(order);
-        this.addTransactionToMap(order);
-    }
-
-    private void addTransactionToMap(Order order) {
-        transactionsMap.put(generateNewOrderNumber(), order);
-    }
-
-    private long generateNewOrderNumber() {
-        return this.transactionsMap.size() + 1L;
+        long number = this.orderHistory.getMap().size() + 1L;
+        user.getOrderHistory().saveFilledOrder(order, number);
+        this.orderHistory.saveFilledOrder(order, number);
     }
 
     public String getTransactionByNumber(long number) {
-        return this.transactionsMap.get(number).toString();
+        return this.orderHistory.getOrderByNumber(number).toString();
     }
 
     public double[] getBuyAndSellRates(Currency currency) {
@@ -38,6 +29,6 @@ public class TransactionService {
     }
 
     public TransactionService() {
-        this.transactionsMap = new HashMap<>();
+        this.orderHistory = new OrderHistory();
     }
 }

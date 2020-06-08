@@ -1,4 +1,4 @@
-package pl.mbierut.requests;
+package pl.mbierut.models.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

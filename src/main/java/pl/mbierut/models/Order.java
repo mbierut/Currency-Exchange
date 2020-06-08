@@ -14,12 +14,13 @@ public class Order {
     private Currency otherCurrencyToSellOrBuy;
     private BuyOrSell buyOrSell;
     private LocalDateTime date;
+    public long orderNumber;
 
     public Order(Funds fundsToBuyOrSell, Currency otherCurrencyToSellOrBuy, BuyOrSell buyOrSell) {
         this.fundsToBuyOrSell = fundsToBuyOrSell;
         this.otherCurrencyToSellOrBuy = otherCurrencyToSellOrBuy;
         this.buyOrSell = buyOrSell;
-        date = LocalDateTime.now();
+        this.date = LocalDateTime.now();
     }
 
     double getFundsValueInOtherCurrency() {
