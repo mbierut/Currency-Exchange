@@ -2,12 +2,15 @@ package pl.mbierut.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import pl.mbierut.exceptions.UserAlreadyExistsException;
+import pl.mbierut.models.Wallet;
 import pl.mbierut.repositories.UserRepository;
 import pl.mbierut.models.requests.UserRegistrationRequest;
 
+@Service
 public class UserService {
-    private UserRepository repository = new UserRepository();
+    private UserRepository repository;
     private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public void registerNewUser(UserRegistrationRequest request) throws UserAlreadyExistsException {
@@ -19,10 +22,10 @@ public class UserService {
         logger.info("Added a new user: {} at {}", request.getUserName(), request.getEmail());
     }
 
-    public String showWallet(String email) {
+    public Wallet showWallet(String email) {
         if (this.repository.findUserByEmail(email) == null) {
-            return "User not found";
+            return null;
         }
-        return this.repository.findUserByEmail(email).showWallet();
+        return this.repository.findUserByEmail(email).getWallet();
     }
 }

@@ -1,12 +1,14 @@
 package pl.mbierut.repositories;
 
 import lombok.Getter;
+import org.springframework.stereotype.Repository;
 import pl.mbierut.models.User;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Getter
+@Repository
 public class UserRepository {
     private Map<String, User> userList;
 
