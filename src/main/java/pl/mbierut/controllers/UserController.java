@@ -18,6 +18,11 @@ public class UserController {
     }
 
 
+    @GetMapping("/")
+    public String sendHome(){
+        return "home";
+    }
+
     @GetMapping("/register")
     public String goToRegistration() {
         return "register";

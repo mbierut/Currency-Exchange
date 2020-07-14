@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+</head>
+<body>
+<form action="/" method="post">
+    Choose currency <input type="text" name="curName1"><br>
+    Choose amount <input type="number" min="0" step="0.01" name="amount"><br>
+    Choose currency <input type="text" name="curName2"><br>
+    Type of transaction <input type="radio" id="buy" name="buyOrSellString" value="buy">
+    <label for="buy">Buy</label>
+    <input type="radio" id="sell" name="buyOrSellString" value="sell">
+    <label for="sell">Sell</label><br>
+    Email address <input type="email" name="email">
+    <input type="submit">
+</form>
+</body>
+</html>
