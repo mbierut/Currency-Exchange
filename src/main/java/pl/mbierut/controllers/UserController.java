@@ -38,7 +38,6 @@ public class UserController {
             service.registerNewUser(request);
         } catch (UserAlreadyExistsException e) {
             e.printStackTrace();
-            return "error";
         }
         return "success";
     }
