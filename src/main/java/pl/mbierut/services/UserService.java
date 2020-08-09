@@ -13,6 +13,10 @@ public class UserService {
     private UserRepository repository;
     private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
+    public UserService() {
+        this.repository = new UserRepository();
+    }
+
     public void registerNewUser(UserRegistrationRequest request) throws UserAlreadyExistsException {
         if (this.repository.findUserByEmail(request.getEmail()) != null) {
             logger.error("User already exists");
