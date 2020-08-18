@@ -4,6 +4,7 @@ import pl.mbierut.exceptions.InsufficientFundsException;
 import pl.mbierut.models.*;
 import pl.mbierut.models.enums.BuyOrSell;
 import pl.mbierut.models.enums.Currency;
+import pl.mbierut.repositories.UserRepository;
 import pl.mbierut.services.TransactionService;
 
 public class OrdersTest {
@@ -59,27 +60,6 @@ public class OrdersTest {
         Assert.assertEquals(19.0, user2.getWallet().getCurrencies().get(Currency.PLN), 0.0);
     }
 
-//    @Test
-//    public void makeOrderWorksAndWritesInTransactionHistory() {
-//        User testUser = new User("Test", "test@test.com", "1");
-//        testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
-//        testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
-//        testUser.getWallet().getCurrencies().put(Currency.CAD, 35.1);
-//        testUser.getWallet().getCurrencies().put(Currency.JPY, 995.0);
-//        testUser.getWallet().getCurrencies().put(Currency.SEK, 3.5);
-//
-//        Funds funds1 = new Funds(Currency.CAD, 15.0);
-//        Order order1 = new Order(funds1, Currency.USD, BuyOrSell.sell);
-//        TransactionService service = new TransactionService();
-//        service.makeOrder(order1, testUser);
-//        Assert.assertEquals(35.1 - 15.0,
-//                testUser.getWallet().getCurrencies().get(Currency.CAD), 0.0);
-//        Assert.assertEquals(15.0 * Currency.CAD.getSellRate() / Currency.USD.getBuyRate(),
-//                testUser.getWallet().getCurrencies().get(Currency.USD), 0.0);
-//        Assert.assertNotNull(testUser.getOrderHistory());
-//        System.out.println(testUser.getOrderHistory());
-//    }
-
     @Test
     public void addingFundsWorks() {
         User testUser = new User("Test", "test@test.com", "1");
@@ -98,40 +78,27 @@ public class OrdersTest {
         Assert.assertEquals(1.0, testUser.getWallet().getCurrencies().get(Currency.AUD), 0.0);
     }
 
-//    @Test
-//    public void showingRatesWorks() {
-//        TransactionService service = new TransactionService();
-//        Assert.assertNotNull(service.getBuyAndSellRates(Currency.JPY));
-//    }
-//
-//    @Test
-//    public void transactionListAndSearchingByNumberFromItWork() {
-//        TransactionService service = new TransactionService();
-//        User testUser = new User("Test", "test@test.com", "1");
-//        testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
-//        testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
-//        testUser.getWallet().getCurrencies().put(Currency.CAD, 35.1);
-//
-//        Funds funds = new Funds(Currency.CAD, 15.0);
-//        Order order = new Order(funds, Currency.USD, BuyOrSell.sell);
-//
-//        service.makeOrder(order, testUser);
-//        Assert.assertEquals(order.toString(), service.getTransactionByNumber(1));
-//    }
-//
-//    @Test
-//    public void buyingWorksProperly() {
-//        TransactionService service = new TransactionService();
-//        User testUser = new User("Test", "test@test.com", "1");
-//        testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
-//        testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
-//        testUser.getWallet().getCurrencies().put(Currency.CAD, 35.1);
-//
-//        Funds funds = new Funds(Currency.USD, 5.0);
-//        Order order = new Order(funds, Currency.CAD, BuyOrSell.buy);
-//
-//        service.makeOrder(order, testUser);
-//        double actualValue = 35.1 - 5.0 * Currency.USD.getBuyRate() / Currency.CAD.getSellRate();
-//        Assert.assertEquals(testUser.getWallet().getCurrencies().get(Currency.CAD), actualValue, 0.0);
-//    }
+    @Test
+    public void showingRatesWorks() {
+        UserRepository repository = new UserRepository();
+        TransactionService service = new TransactionService(repository);
+        Assert.assertNotNull(service.getBuyAndSellRates(Currency.JPY));
+    }
+
+    @Test
+    public void transactionListAndSearchingByNumberFromItWork() {
+        UserRepository repository = new UserRepository();
+        TransactionService service = new TransactionService(repository);
+        User testUser = new User("Test", "test@test.com", "1");
+        testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);
+        testUser.getWallet().getCurrencies().put(Currency.AUD, 10.0);
+        testUser.getWallet().getCurrencies().put(Currency.CAD, 35.1);
+
+        Funds funds = new Funds(Currency.CAD, 15.0);
+        Order order = new Order(funds, Currency.USD, BuyOrSell.sell);
+
+
+        Assert.assertEquals(order.toString(), service.getTransactionByNumber(1));
+    }
+
 }
