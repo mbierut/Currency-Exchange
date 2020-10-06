@@ -18,6 +18,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long orderNumber;
 
+    @Embedded
     @Column(name = "funds")
     private Funds fundsToBuyOrSell;
 

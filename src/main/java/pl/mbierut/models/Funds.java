@@ -6,6 +6,9 @@ import lombok.ToString;
 import pl.mbierut.models.enums.BuyOrSell;
 import pl.mbierut.models.enums.Currency;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 @Getter
 @ToString
 @AllArgsConstructor
