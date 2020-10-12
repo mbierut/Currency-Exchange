@@ -2,12 +2,8 @@ package pl.mbierut.models;
 
 import lombok.Getter;
 
-import javax.persistence.*;
-
 @Getter
 public class User {
-
-    private long id;
 
     private String username;
 

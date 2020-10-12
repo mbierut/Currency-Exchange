@@ -6,12 +6,12 @@ import pl.mbierut.models.OrderHistory;
 import pl.mbierut.models.User;
 import pl.mbierut.models.enums.Currency;
 import pl.mbierut.models.requests.OrderRequest;
-import pl.mbierut.repositories.UserRepository;
+import pl.mbierut.repositories.UserRepositoryOld;
 
 @Service
 public class TransactionService {
     private OrderHistory orderHistory;
-    private UserRepository repository;
+    private UserRepositoryOld repository;
 
     public void makeOrder(OrderRequest request) {
         try {
@@ -33,7 +33,7 @@ public class TransactionService {
         return new double[]{currency.getBuyRate(), currency.getSellRate()};
     }
 
-    public TransactionService(UserRepository repository) {
+    public TransactionService(UserRepositoryOld repository) {
         this.orderHistory = new OrderHistory();
         this.repository = repository;
     }

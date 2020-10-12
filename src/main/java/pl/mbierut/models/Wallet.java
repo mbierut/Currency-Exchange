@@ -3,6 +3,7 @@ package pl.mbierut.models;
 import lombok.Getter;
 import lombok.ToString;
 import org.slf4j.LoggerFactory;
+import pl.mbierut.entities.Order;
 import pl.mbierut.exceptions.InsufficientFundsException;
 
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class Wallet {
     private Map<Currency, Double> currencies;
     private static Logger logger = LoggerFactory.getLogger(Wallet.class);
 
-    public void fulfillOrder(Order order) throws InsufficientFundsException {
+    public void fulfillOrder(pl.mbierut.entities.Order order) throws InsufficientFundsException {
         if (order.getBuyOrSell().equals(BuyOrSell.sell)) {
             this.sellCurrency(order);
         } else if (order.getBuyOrSell().equals(BuyOrSell.buy)) {
@@ -26,7 +27,7 @@ public class Wallet {
         }
     }
 
-    private void sellCurrency(Order order) throws InsufficientFundsException {
+    private void sellCurrency(pl.mbierut.entities.Order order) throws InsufficientFundsException {
         double curSubtractedFrom = this.getCurrencies().get(order.getFundsToBuyOrSell().getCurrency());
         if (curSubtractedFrom - order.getFundsToBuyOrSell().getAmount() < 0) {
             logger.error("Insufficient funds");

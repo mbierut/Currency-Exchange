@@ -16,7 +16,7 @@ public class Funds {
     public Currency currency;
     public double amount;
 
-    double getValue(BuyOrSell buyOrSell) {
+    public double getValue(BuyOrSell buyOrSell) {
         double rate = -1.0;
         if (buyOrSell.equals(BuyOrSell.buy)) {
             rate = this.getCurrency().getBuyRate();

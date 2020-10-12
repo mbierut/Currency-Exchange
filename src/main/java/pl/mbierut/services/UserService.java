@@ -5,16 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.mbierut.exceptions.UserAlreadyExistsException;
 import pl.mbierut.models.Wallet;
-import pl.mbierut.repositories.UserRepository;
+import pl.mbierut.repositories.UserRepositoryOld;
 import pl.mbierut.models.requests.UserRegistrationRequest;
 
 @Service
 public class UserService {
-    private UserRepository repository;
+    private UserRepositoryOld repository;
     private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public UserService() {
-        this.repository = new UserRepository();
+        this.repository = new UserRepositoryOld();
     }
 
     public void registerNewUser(UserRegistrationRequest request) throws UserAlreadyExistsException {

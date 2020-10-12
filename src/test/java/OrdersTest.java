@@ -1,10 +1,11 @@
 import org.junit.Assert;
 import org.junit.Test;
+import pl.mbierut.entities.Order;
 import pl.mbierut.exceptions.InsufficientFundsException;
 import pl.mbierut.models.*;
 import pl.mbierut.models.enums.BuyOrSell;
 import pl.mbierut.models.enums.Currency;
-import pl.mbierut.repositories.UserRepository;
+import pl.mbierut.repositories.UserRepositoryOld;
 import pl.mbierut.services.TransactionService;
 
 public class OrdersTest {
@@ -80,14 +81,14 @@ public class OrdersTest {
 
     @Test
     public void showingRatesWorks() {
-        UserRepository repository = new UserRepository();
+        UserRepositoryOld repository = new UserRepositoryOld();
         TransactionService service = new TransactionService(repository);
         Assert.assertNotNull(service.getBuyAndSellRates(Currency.JPY));
     }
 
     @Test
     public void transactionListAndSearchingByNumberFromItWork() {
-        UserRepository repository = new UserRepository();
+        UserRepositoryOld repository = new UserRepositoryOld();
         TransactionService service = new TransactionService(repository);
         User testUser = new User("Test", "test@test.com", "1");
         testUser.getWallet().getCurrencies().put(Currency.PLN, 100.0);

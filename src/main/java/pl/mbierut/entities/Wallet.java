@@ -13,19 +13,19 @@ import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@Entity
+//@Entity
 @Getter
 @ToString
 public class Wallet {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    long id;
 
-    @Column(name = "currencies")
+//    @Column(name = "currencies")
     private Map<Currency, Double> currencies;
 
-    @Column(name = "logger")
+//    @Column(name = "logger")
     private static Logger logger = LoggerFactory.getLogger(Wallet.class);
 
 //    public void fulfillOrder(Order order) throws InsufficientFundsException {
