@@ -22,8 +22,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
-//    @Column(name = "wallet")
-//    private Wallet wallet;
+    @OneToOne
+    @JoinColumn(name = "wallet_id", referencedColumnName = "id")
+    private Wallet wallet;
 
 //    @Column(name = "order_history")
 //    private OrderHistory orderHistory;
@@ -32,7 +33,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-//        this.wallet = new Wallet();
+        this.wallet = new Wallet();
 //        this.orderHistory = new OrderHistory();
     }
 

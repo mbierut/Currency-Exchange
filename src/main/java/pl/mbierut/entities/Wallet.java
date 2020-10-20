@@ -13,20 +13,23 @@ import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
-//@Entity
+@Entity
 @Getter
 @ToString
 public class Wallet {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
 
 //    @Column(name = "currencies")
-    private Map<Currency, Double> currencies;
+//    private Map<Currency, Double> currencies;
 
-//    @Column(name = "logger")
+    @Column(name = "logger")
     private static Logger logger = LoggerFactory.getLogger(Wallet.class);
+
+    @OneToOne
+    private User user;
 
 //    public void fulfillOrder(Order order) throws InsufficientFundsException {
 //        if (order.getBuyOrSell().equals(BuyOrSell.sell)) {
@@ -81,12 +84,12 @@ public class Wallet {
 //        this.getCurrencies().put(funds.getCurrency(), this.getCurrencies().get(funds.getCurrency()) - funds.getAmount());
 //        logger.info("Deposited {}{}", funds.getAmount(), funds.getCurrency());
 //    }
-
-    Wallet() {
-        this.currencies = new HashMap<>();
-        for (Currency currency : Currency.values()) {
-            this.currencies.put(currency, 0.0);
-        }
-    }
+//
+//    Wallet() {
+//        this.currencies = new HashMap<>();
+//        for (Currency currency : Currency.values()) {
+//            this.currencies.put(currency, 0.0);
+//        }
+//    }
 
 }
