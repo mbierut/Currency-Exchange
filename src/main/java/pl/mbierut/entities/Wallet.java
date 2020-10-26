@@ -19,8 +19,8 @@ import java.util.Map;
 public class Wallet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    @Column(name = "user_id")
+    private Long id;
 
 //    @Column(name = "currencies")
 //    private Map<Currency, Double> currencies;
@@ -29,6 +29,8 @@ public class Wallet {
     private static Logger logger = LoggerFactory.getLogger(Wallet.class);
 
     @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id")
     private User user;
 
 //    public void fulfillOrder(Order order) throws InsufficientFundsException {

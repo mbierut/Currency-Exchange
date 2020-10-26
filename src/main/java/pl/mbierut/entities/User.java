@@ -22,8 +22,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToOne
-    @JoinColumn(name = "wallet_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "user")
+    @PrimaryKeyJoinColumn
     private Wallet wallet;
 
 //    @Column(name = "order_history")
