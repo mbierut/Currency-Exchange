@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.mbierut.exceptions.UserAlreadyExistsException;
 import pl.mbierut.models.Wallet;
-import pl.mbierut.repositories.UserRepositoryOld;
+import pl.mbierut.repository.UserRepositoryOld;
 import pl.mbierut.models.requests.UserRegistrationRequest;
 
 @Service

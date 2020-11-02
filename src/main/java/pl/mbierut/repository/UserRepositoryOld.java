@@ -1,4 +1,4 @@
-package pl.mbierut.repositories;
+package pl.mbierut.repository;
 
 import lombok.Getter;
 import org.springframework.stereotype.Repository;

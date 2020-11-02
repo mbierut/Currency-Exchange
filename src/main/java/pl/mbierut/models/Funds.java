@@ -1,8 +1,6 @@
 package pl.mbierut.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import pl.mbierut.models.enums.BuyOrSell;
 import pl.mbierut.models.enums.Currency;
 
@@ -12,7 +10,10 @@ import javax.persistence.Embeddable;
 @Getter
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Funds {
+
     public Currency currency;
     public double amount;
 

@@ -1,11 +1,13 @@
+package pl.mbierut;
+
 import org.junit.Assert;
 import org.junit.Test;
-import pl.mbierut.entities.Order;
+import pl.mbierut.database.entities.OrderEntity;
 import pl.mbierut.exceptions.InsufficientFundsException;
 import pl.mbierut.models.*;
 import pl.mbierut.models.enums.BuyOrSell;
 import pl.mbierut.models.enums.Currency;
-import pl.mbierut.repositories.UserRepositoryOld;
+import pl.mbierut.repository.UserRepositoryOld;
 import pl.mbierut.services.TransactionService;
 
 public class OrdersTest {

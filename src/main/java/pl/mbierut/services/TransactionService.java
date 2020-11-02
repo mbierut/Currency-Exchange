@@ -6,7 +6,7 @@ import pl.mbierut.models.OrderHistory;
 import pl.mbierut.models.User;
 import pl.mbierut.models.enums.Currency;
 import pl.mbierut.models.requests.OrderRequest;
-import pl.mbierut.repositories.UserRepositoryOld;
+import pl.mbierut.repository.UserRepositoryOld;
 
 @Service
 public class TransactionService {

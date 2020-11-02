@@ -2,7 +2,7 @@ package pl.mbierut.models;
 
 import lombok.Getter;
 import lombok.ToString;
-import pl.mbierut.entities.Order;
+import pl.mbierut.database.entities.OrderEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,13 +10,13 @@ import java.util.Map;
 @Getter
 @ToString
 public class OrderHistory {
-    private Map<Long, pl.mbierut.entities.Order> map;
+    private Map<Long, Order> map;
 
     public OrderHistory() {
         this.map = new HashMap<>();
     }
 
-    public void saveFilledOrder(pl.mbierut.entities.Order order, long number) {
+    public void saveFilledOrder(Order order, long number) {
         order.orderNumber = number;
         this.map.put(order.getOrderNumber(), order);
     }

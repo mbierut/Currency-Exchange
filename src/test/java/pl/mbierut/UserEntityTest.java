@@ -1,10 +1,12 @@
+package pl.mbierut;
+
 import org.junit.Assert;
 import org.junit.Test;
 import pl.mbierut.exceptions.UserAlreadyExistsException;
 import pl.mbierut.models.requests.UserRegistrationRequest;
 import pl.mbierut.services.UserService;
 
-public class UserTest {
+public class UserEntityTest {
 
     @Test(expected = UserAlreadyExistsException.class)
     public void userAlreadyExistsExceptionThrownProperly() throws UserAlreadyExistsException {
