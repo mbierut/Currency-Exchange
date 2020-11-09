@@ -9,8 +9,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class OrderEntity {
@@ -31,5 +29,18 @@ public class OrderEntity {
 
     @Column(name = "date")
     private LocalDateTime date;
+
+
+    public OrderEntity(Funds fundsToBuyOrSell, Currency otherCurrencyToSellOrBuy, BuyOrSell buyOrSell) {
+        this.fundsToBuyOrSell = fundsToBuyOrSell;
+        this.otherCurrencyToSellOrBuy = otherCurrencyToSellOrBuy;
+        this.buyOrSell = buyOrSell;
+        this.date = LocalDateTime.now();
+    }
+
+    public OrderEntity(){
+        this.date = LocalDateTime.now();
+    }
+
 
 }

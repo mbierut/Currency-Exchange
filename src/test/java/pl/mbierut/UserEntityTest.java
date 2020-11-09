@@ -2,31 +2,30 @@ package pl.mbierut;
 
 import org.junit.Assert;
 import org.junit.Test;
-import pl.mbierut.exceptions.UserAlreadyExistsException;
-import pl.mbierut.models.requests.UserRegistrationRequest;
-import pl.mbierut.services.UserService;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import pl.mbierut.database.entities.UserEntity;
+import pl.mbierut.database.repositories.UserRepository;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class UserEntityTest {
 
-    @Test(expected = UserAlreadyExistsException.class)
-    public void userAlreadyExistsExceptionThrownProperly() throws UserAlreadyExistsException {
-        UserService service = new UserService();
-        String testEmail = "test@test.com";
-        UserRegistrationRequest req1 = new UserRegistrationRequest("Test1", testEmail, "1");
-        UserRegistrationRequest req2 = new UserRegistrationRequest("Test2", testEmail, "2");
-
-        service.registerNewUser(req1);
-        service.registerNewUser(req2);
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
-    public void showWalletWorksCorrectly() throws UserAlreadyExistsException {
-        UserService service = new UserService();
-        String testEmail = "test@test.com";
-        UserRegistrationRequest request = new UserRegistrationRequest("Test", testEmail, "1");
-        service.registerNewUser(request);
-        System.out.println(service.showWallet(testEmail));
+    public void userCreatedCorrectly() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail("test.test@test.test");
+        userEntity.setPassword("test-test");
+        userEntity.setUsername("test");
 
-        Assert.assertNotNull(service.showWallet(testEmail));
+        userRepository.save(userEntity);
+
+        Assert.assertEquals(userRepository.findByEmail("test.test@test.test").getUsername(), "test");
     }
+
 }
