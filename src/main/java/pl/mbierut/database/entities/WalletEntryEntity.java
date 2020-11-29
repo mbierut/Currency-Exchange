@@ -25,7 +25,7 @@ public class WalletEntryEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public WalletEntryEntity(Funds funds) {
+    WalletEntryEntity(Funds funds) {
         this.funds = funds;
     }
 

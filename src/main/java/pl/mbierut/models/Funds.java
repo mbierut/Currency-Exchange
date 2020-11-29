@@ -15,8 +15,8 @@ import javax.persistence.Embeddable;
 @Builder
 public class Funds {
 
-    public Currency currency;
-    public double amount;
+    private Currency currency;
+    private double amount;
 
     public double getValue(BuyOrSell buyOrSell) {
         double rate = -1.0;

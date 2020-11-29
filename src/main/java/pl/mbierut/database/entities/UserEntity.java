@@ -10,6 +10,7 @@ import pl.mbierut.models.enums.BuyOrSell;
 import pl.mbierut.models.enums.Currency;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,6 +41,7 @@ public class UserEntity {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.walletEntries = new ArrayList<>();
     }
 
     public void fulfillOrder(OrderEntity order) throws InsufficientFundsException {
@@ -51,28 +53,28 @@ public class UserEntity {
     }
 
     private void sellCurrency(OrderEntity order) throws InsufficientFundsException {
-        Funds funds = this.findCurrencyInWallet(order.getFundsToBuyOrSell().getCurrency()).getFunds();
-        Funds otherFunds = this.findCurrencyInWallet(order.getOtherCurrencyToSellOrBuy()).getFunds();
-        double curSubtractedFrom = funds.getAmount();
+        Funds fundsSold = this.findCurrencyInWallet(order.getFundsToBuyOrSell().getCurrency()).getFunds();
+        Funds fundsAddedTo = this.findCurrencyInWallet(order.getOtherCurrencyToSellOrBuy()).getFunds();
+        double curSubtractedFrom = fundsSold.getAmount();
         if (curSubtractedFrom - order.getFundsToBuyOrSell().getAmount() < 0.0) {
 //            logger.error("Insufficient funds");
             throw new InsufficientFundsException("Insufficient funds");
         }
-        funds.setAmount(curSubtractedFrom - order.getFundsToBuyOrSell().getAmount());
-        otherFunds.setAmount(otherFunds.getAmount() + order.getFundsValueInOtherCurrency());
+        fundsSold.setAmount(curSubtractedFrom - order.getFundsToBuyOrSell().getAmount());
+        fundsAddedTo.setAmount(fundsAddedTo.getAmount() + order.getFundsValueInOtherCurrency());
 //        logger.info("{}{} was sold for {}{}", order.getFundsToBuyOrSell().getAmount(), order.getFundsToBuyOrSell().getCurrency(), order.getFundsValueInOtherCurrency(), order.getOtherCurrencyToSellOrBuy());
     }
 
     private void buyCurrency(OrderEntity order) throws InsufficientFundsException {
-        Funds funds = this.findCurrencyInWallet(order.getFundsToBuyOrSell().getCurrency()).getFunds();
-        Funds otherFunds = this.findCurrencyInWallet(order.getOtherCurrencyToSellOrBuy()).getFunds();
-        double curSubtractedFrom = otherFunds.getAmount();
+        Funds fundsAddedTo = this.findCurrencyInWallet(order.getFundsToBuyOrSell().getCurrency()).getFunds();
+        Funds fundsSold = this.findCurrencyInWallet(order.getOtherCurrencyToSellOrBuy()).getFunds();
+        double curSubtractedFrom = fundsSold.getAmount();
         if (curSubtractedFrom - order.getFundsValueInOtherCurrency() < 0.0) {
 //            logger.error("Insufficient funds");
             throw new InsufficientFundsException("Insufficient funds");
         }
-        otherFunds.setAmount(curSubtractedFrom - order.getFundsValueInOtherCurrency());
-        funds.setAmount(otherFunds.getAmount() + order.getFundsValueInOtherCurrency());
+        fundsSold.setAmount(curSubtractedFrom - order.getFundsValueInOtherCurrency());
+        fundsAddedTo.setAmount(fundsAddedTo.getAmount() + order.getFundsToBuyOrSell().getAmount());
 //        logger.info("{}{} was bought for {}{}", order.getFundsToBuyOrSell().getAmount(), order.getFundsToBuyOrSell().getCurrency(), order.getFundsValueInOtherCurrency(), order.getOtherCurrencyToSellOrBuy());
     }
 
@@ -83,6 +85,7 @@ public class UserEntity {
             throw new InsufficientFundsException("Insufficient funds");
         }
         user.addFunds(funds);
+        baseFunds.setAmount(baseFunds.getAmount() - funds.getAmount());
 //        logger.info("Sent {}{}", funds.getAmount(), funds.getCurrency());
     }
 
@@ -102,13 +105,14 @@ public class UserEntity {
 //        logger.info("Deposited {}{}", funds.getAmount(), funds.getCurrency());
     }
 
-    private WalletEntryEntity findCurrencyInWallet(Currency currency) {
+    public WalletEntryEntity findCurrencyInWallet(Currency currency) {
         for (WalletEntryEntity entry : this.walletEntries) {
             if (entry.getFunds().getCurrency().equals(currency)) {
                 return entry;
             }
         }
         WalletEntryEntity walletEntry = new WalletEntryEntity(new Funds(currency, 0.0));
+        this.walletEntries.add(walletEntry);
         return walletEntry;
     }
 
