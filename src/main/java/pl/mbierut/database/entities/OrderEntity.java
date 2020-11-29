@@ -42,5 +42,15 @@ public class OrderEntity {
         this.date = LocalDateTime.now();
     }
 
+    double getFundsValueInOtherCurrency() {
+        double rate = -1.0;
+        if (this.getBuyOrSell().equals(BuyOrSell.sell)) {
+            rate = this.getOtherCurrencyToSellOrBuy().getBuyRate();
+        } else if (this.getBuyOrSell().equals(BuyOrSell.buy)) {
+            rate = this.getOtherCurrencyToSellOrBuy().getSellRate();
+        }
+        return this.getFundsToBuyOrSell().getValue(this.buyOrSell) / rate;
+    }
+
 
 }

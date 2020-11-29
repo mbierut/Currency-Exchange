@@ -50,7 +50,7 @@ public class UserController {
 
     @PostMapping("/wallet")
     public String showWalletForEmail(Model model, @RequestParam(name = "email") String email) {
-        String wallet = service.showWallet(email).toString();
+        String wallet = service.showWallet(email);
         model.addAttribute("wallet", wallet);
         return "wallet";
     }

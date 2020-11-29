@@ -1,8 +1,6 @@
 package pl.mbierut.database.entities;
 
 import lombok.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import pl.mbierut.models.Funds;
 
 import javax.persistence.*;
@@ -12,6 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class WalletEntryEntity {
 
     @Id
@@ -25,5 +24,9 @@ public class WalletEntryEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    public WalletEntryEntity(Funds funds) {
+        this.funds = funds;
+    }
 
 }

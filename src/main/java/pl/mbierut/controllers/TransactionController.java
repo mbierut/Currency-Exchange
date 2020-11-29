@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.mbierut.database.entities.OrderEntity;
 import pl.mbierut.models.Funds;
-import pl.mbierut.models.Order;
 import pl.mbierut.models.enums.BuyOrSell;
 import pl.mbierut.models.enums.Currency;
 import pl.mbierut.models.requests.OrderRequest;
@@ -34,7 +33,7 @@ public class TransactionController {
         Currency cur1 = Currency.valueOf(curName1);
         Currency cur2 = Currency.valueOf(curName2);
         BuyOrSell buyOrSell = BuyOrSell.valueOf(buyOrSellString);
-        this.service.makeOrder(new OrderRequest(new Order(new Funds(cur1, amount), cur2, buyOrSell), email));
+        this.service.makeOrder(new OrderRequest(new OrderEntity(new Funds(cur1, amount), cur2, buyOrSell), email));
         return "success";
     }
 
