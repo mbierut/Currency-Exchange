@@ -30,6 +30,10 @@ public class UserService {
         return user.getWalletEntries().toString();
     }
 
+    public UserEntity getUser(String email) {
+        return this.repository.findByEmail(email);
+    }
+
     public UserService(UserRepository repository) {
         this.repository = repository;
     }

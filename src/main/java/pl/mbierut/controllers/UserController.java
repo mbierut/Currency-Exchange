@@ -19,7 +19,7 @@ public class UserController {
 
 
     @GetMapping("/")
-    public String sendHome(){
+    public String sendHome() {
         return "home";
     }
 
@@ -54,6 +54,4 @@ public class UserController {
         model.addAttribute("wallet", wallet);
         return "wallet";
     }
-
-
 }
