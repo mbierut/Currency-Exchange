@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
 import pl.mbierut.exceptions.InsufficientFundsException;
 import pl.mbierut.models.Funds;
 import pl.mbierut.models.enums.BuyOrSell;
@@ -34,7 +35,7 @@ public class UserEntity {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<WalletEntryEntity> walletEntries;
 
     public UserEntity(String username, String email, String password) {
@@ -112,6 +113,8 @@ public class UserEntity {
             }
         }
         WalletEntryEntity walletEntry = new WalletEntryEntity(new Funds(currency, 0.0));
+
+        walletEntry.setUser(this);
         this.walletEntries.add(walletEntry);
         return walletEntry;
     }
