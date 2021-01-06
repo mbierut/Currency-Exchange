@@ -1,6 +1,7 @@
 package pl.mbierut.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,6 +54,7 @@ public class TransactionController {
     }
 
     @PostMapping("/add-funds")
+    @Transactional
     public String addFunds(@RequestParam(name = "email") String email,
                            @RequestParam(name = "currency") String currencyName,
                            @RequestParam(name = "amount") double amount) {
@@ -72,6 +74,7 @@ public class TransactionController {
     }
 
     @PostMapping("/withdraw-funds")
+    @Transactional
     public String withdrawFunds(@RequestParam(name = "email") String email,
                                 @RequestParam(name = "currency") String currencyName,
                                 @RequestParam(name = "amount") double amount) {
