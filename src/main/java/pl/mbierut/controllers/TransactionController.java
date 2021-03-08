@@ -36,13 +36,13 @@ public class TransactionController {
     }
 
     @PostMapping("/order")
-    public String makeOrder(@RequestParam(name = "currency1") String curName1,
+    public String makeOrder(@RequestParam(name = "currencyName1") String currencyName1,
                             @RequestParam(name = "amount") double amount,
-                            @RequestParam(name = "currency2") String curName2,
+                            @RequestParam(name = "currencyName2") String currencyName2,
                             @RequestParam(name = "buyOrSell") String buyOrSellString,
                             @RequestParam(name = "email") String email) {
-        Currency cur1 = Currency.valueOf(curName1);
-        Currency cur2 = Currency.valueOf(curName2);
+        Currency cur1 = Currency.valueOf(currencyName1);
+        Currency cur2 = Currency.valueOf(currencyName2);
         BuyOrSell buyOrSell = BuyOrSell.valueOf(buyOrSellString);
         this.transactionService.makeOrder(new OrderRequest(new OrderEntity(new Funds(cur1, amount), cur2, buyOrSell), email));
         return "success";
@@ -56,7 +56,7 @@ public class TransactionController {
     @PostMapping("/add-funds")
     @Transactional
     public String addFunds(@RequestParam(name = "email") String email,
-                           @RequestParam(name = "currency") String currencyName,
+                           @RequestParam(name = "currencyName") String currencyName,
                            @RequestParam(name = "amount") double amount) {
         Currency currency = Currency.valueOf(currencyName);
         Funds funds = new Funds(currency, amount);
@@ -76,7 +76,7 @@ public class TransactionController {
     @PostMapping("/withdraw-funds")
     @Transactional
     public String withdrawFunds(@RequestParam(name = "email") String email,
-                                @RequestParam(name = "currency") String currencyName,
+                                @RequestParam(name = "currencyName") String currencyName,
                                 @RequestParam(name = "amount") double amount) {
         Currency currency = Currency.valueOf(currencyName);
         Funds funds = new Funds(currency, amount);
@@ -101,7 +101,7 @@ public class TransactionController {
     @PostMapping("/send-funds")
     public String sendFunds(@RequestParam(name = "email1") String email1,
                             @RequestParam(name = "email2") String email2,
-                            @RequestParam(name = "currency") String currencyName,
+                            @RequestParam(name = "currencyName") String currencyName,
                             @RequestParam(name = "amount") double amount) {
         Currency currency = Currency.valueOf(currencyName);
         Funds funds = new Funds(currency, amount);
