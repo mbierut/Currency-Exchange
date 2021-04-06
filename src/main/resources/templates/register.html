@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Register</title>
 </head>
 <body>
 <div>
-    <form action="/register" method="post">
-        User name <input type="text" name="userName"><br>
-        Email address <input type="email" name="email"><br>
-        Password <input type="password" name="password"><br>
-        Submit <input type="submit">
+    <form action="/register" method="post" class="row-g6">
+        <div class="col-md-6">
+            User name
+            <input type="text" name="userName" placeholder="Enter name here" class="form-control">
+        </div>
+        <div class="col-md-6">
+            Email address
+            <input type="email" name="email" placeholder="Enter email adress here" class="form-control">
+        </div>
+        <div class="col-md-6">
+            Password
+            <input type="password" name="password" placeholder="Enter password here" class="form-control">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary" value="Register">Sign in</button>
+        </div>
     </form>
 </div>
-<a href="/">Back</a>
+<div class="fixed-bottom">
+    <a href="/">Back</a>
+</div>
 </body>
 </html>

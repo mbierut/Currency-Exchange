@@ -6,8 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.mbierut.exceptions.UserAlreadyExistsException;
+import pl.mbierut.models.enums.Currency;
 import pl.mbierut.models.requests.UserRegistrationRequest;
 import pl.mbierut.services.UserService;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class UserController {
@@ -20,7 +25,10 @@ public class UserController {
 
     @GetMapping("/")
     public String sendHome() {
-        return "home";
+        List<String> currencyNames = Stream.of(Currency.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+        return "index";
     }
 
     @GetMapping("/register")
