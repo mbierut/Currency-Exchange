@@ -10,7 +10,6 @@ import pl.mbierut.models.enums.BuyOrSell;
 import pl.mbierut.models.enums.Currency;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class UserEntity {
     private long id;
 
     @Column(name = "username")
-    @Pattern(regexp="^[a-zA-ZąĄćĆółŁńŃóÓśŚźŹŻŹ]{1,}", message="must be valid user name")
+    @Pattern(regexp="^[a-zA-ZąĄćĆłŁńŃóÓśŚźŹŻ]+", message="must be valid user name")
     private String username;
 
     @Column(name = "email")
