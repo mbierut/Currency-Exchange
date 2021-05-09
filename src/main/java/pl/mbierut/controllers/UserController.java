@@ -10,9 +10,8 @@ import pl.mbierut.models.enums.Currency;
 import pl.mbierut.models.requests.UserRegistrationRequest;
 import pl.mbierut.services.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Controller
 public class UserController {
@@ -24,10 +23,16 @@ public class UserController {
 
 
     @GetMapping("/")
-    public String sendHome() {
-        List<String> currencyNames = Stream.of(Currency.values())
-                .map(Enum::name)
-                .collect(Collectors.toList());
+    public String sendHome(Model model) {
+        List<String[]> listOfCurrencies = new ArrayList<>();
+        for (int i = 0; i < Currency.values().length; i++) {
+            if (Currency.values()[i].equals(Currency.PLN)){
+                continue;
+            }
+            listOfCurrencies.add(Currency.values()[i].getCurrencyAndRates());
+        }
+        model.addAttribute("listOfCurrencies", listOfCurrencies);
+
         return "index";
     }
 

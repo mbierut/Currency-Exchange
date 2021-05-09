@@ -26,4 +26,8 @@ public enum Currency {
         }
         return -1.0;
     }
+
+    public String[] getCurrencyAndRates() {
+        return new String[]{this.name(), Double.toString(this.getBuyRate()), Double.toString(this.getSellRate())};
+    }
 }
