@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @JsonDeserialize
 @AllArgsConstructor
 @NoArgsConstructor
-public class CurrencyDTO {
+public class TableDTO {
     public String table;
-    public String currency;
-    public String code;
-    public CurrencyRateDTO[] rates;
-
-
+    public String no;
+    public String tradingDate;
+    public String effectiveDate;
+    public TableRateDTO[] rates;
 }

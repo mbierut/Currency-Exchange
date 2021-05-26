@@ -3,6 +3,7 @@ package pl.mbierut.models.enums;
 import pl.mbierut.clients.CurrencyRestClient;
 
 import java.io.IOException;
+import java.util.List;
 
 public enum Currency {
     PLN, USD, AUD, CAD, EUR, HUF, CHF, GBP, JPY, CZK, DKK, NOK, SEK, XDR;
@@ -27,7 +28,13 @@ public enum Currency {
         return -1.0;
     }
 
-    public String[] getCurrencyAndRates() {
-        return new String[]{this.name(), Double.toString(this.getBuyRate()), Double.toString(this.getSellRate())};
+    public static List<String[]> getRateTable(){
+        CurrencyRestClient client = new CurrencyRestClient();
+        try {
+            return client.getExchangeRatesTable();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

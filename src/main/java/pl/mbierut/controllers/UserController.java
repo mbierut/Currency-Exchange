@@ -10,7 +10,6 @@ import pl.mbierut.models.enums.Currency;
 import pl.mbierut.models.requests.UserRegistrationRequest;
 import pl.mbierut.services.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,15 +23,8 @@ public class UserController {
 
     @GetMapping("/")
     public String sendHome(Model model) {
-        List<String[]> listOfCurrencies = new ArrayList<>();
-        for (int i = 0; i < Currency.values().length; i++) {
-            if (Currency.values()[i].equals(Currency.PLN)){
-                continue;
-            }
-            listOfCurrencies.add(Currency.values()[i].getCurrencyAndRates());
-        }
+        List<String[]> listOfCurrencies = Currency.getRateTable();
         model.addAttribute("listOfCurrencies", listOfCurrencies);
-
         return "index";
     }
 

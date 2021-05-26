@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RateDTO {
-    public String no;
-    public String effectiveDate;
+public class TableRateDTO {
+    public String currency;
+    public String code;
     public double bid;
     public double ask;
-
-
 }
