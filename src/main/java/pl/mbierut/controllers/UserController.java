@@ -1,10 +1,15 @@
 package pl.mbierut.controllers;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.mbierut.database.repositories.WalletEntryRepository;
 import pl.mbierut.exceptions.UserAlreadyExistsException;
 import pl.mbierut.models.enums.Currency;
 import pl.mbierut.models.requests.UserRegistrationRequest;
@@ -20,12 +25,21 @@ public class UserController {
         this.service = service;
     }
 
+    @ModelAttribute("currentUsername")
+    public String getCurrentUser() {
+        return getCurrentUserEmail();
+    }
 
     @GetMapping("/")
     public String sendHome(Model model) {
         List<String[]> listOfCurrencies = Currency.getRateTable();
         model.addAttribute("listOfCurrencies", listOfCurrencies);
         return "index";
+    }
+
+    @GetMapping("/login")
+    public String goToLogin() {
+        return "login";
     }
 
     @GetMapping("/register")
@@ -58,5 +72,12 @@ public class UserController {
         String wallet = service.showWallet(email);
         model.addAttribute("wallet", wallet);
         return "wallet";
+    }
+
+    private String getCurrentUserEmail() {
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+            return null;
+        }
+        return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
     }
 }

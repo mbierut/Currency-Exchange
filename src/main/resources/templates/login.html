@@ -4,7 +4,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>Error</title>
+    <title>Register</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,6 +34,26 @@
         </div>
     </div>
 </nav>
-<div>Error. Please try again later</div>
+<div>
+    <form th:action="@{/login}" method="post" class="row-g6">
+        <div class="col-md-6">
+            Username: <input type="text" name="username" class="form-control">
+        </div>
+        <br>
+        <div class="col-md-6">
+            Password: <input type="text" name="password" class="form-control">
+        </div>
+        <br>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary" value="Login">Login</button>
+        </div>
+    </form>
+
+    <br>Feel free to use a test account if you don't feel like creating a new one:
+    <br><br>
+    Login: test@test.pl Password: test<br>
+    Login: test2@test.pl Password: test
+
+</div>
 </body>
 </html>

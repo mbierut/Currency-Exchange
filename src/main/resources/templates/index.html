@@ -25,6 +25,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/transactions">Make a transaction</a>
                 </li>
+                <div th:if="${currentUsername != null}">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/logout">Logout (<span th:text="${currentUsername}"></span>)</a>
+                    </li>
+                </div>
             </ul>
         </div>
     </div>
