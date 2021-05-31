@@ -9,7 +9,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Currency exchange</a>
+        <a class="navbar-brand" href="/">Currency Exchange</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -17,7 +17,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/">Rates</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/register">Register an account</a>
@@ -37,26 +37,40 @@
 </nav>
 <form action="/order" method="post" class="row-g6">
     <div class="col-md-6">
-        Currency you want to buy or sell:
-        <input type="text" name="currencyName1">
+        Type of transaction
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="buyOrSell" id="buy" value="buy">
+            <label class="form-check-label" for="buy">
+                Buy
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="buyOrSell" id="sell" value="sell">
+            <label class="form-check-label" for="sell">
+                Sell
+            </label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        Currency you want to buy or sell
+        <select name="currencyName1" class="form-select">
+            <option th:each="currency : ${currencyNames}" th:value="${currency}" th:text="${currency}"
+                    name="currencyName1"></option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        Choose amount of the currency to buy or sell
+        <input type="number" min="0" step="0.01" name="amount" class="form-control">
     </div>
     <div class="col-md-6">
         Choose currency that will be credited or charged
-        <input type="text" name="currencyName2">
-    </div>
-    <div class="col-md-6">
-        Choose amount of first currency
-        <input type="number" min="0" step="0.01" name="amount">
-    </div>
-    <div class="col-md-6">
-        Type of transaction
-        <input type="radio" id="buy" name="buyOrSell" value="buy">
-        <label for="buy">Buy</label>
-        <input type="radio" id="sell" name="buyOrSell" value="sell">
-        <label for="sell">Sell</label>
+        <select name="currencyName2" class="form-select">
+            <option th:each="currency : ${currencyNames}" th:value="${currency}" th:text="${currency}"
+                    name="currencyName2"></option>
+        </select>
     </div>
     <div class="col-12">
-        <button type="submit" class="btn btn-primary" value="Make transaction">Make transaction</button>
+        <button type="submit" class="btn btn-primary" value="Make transaction">Make a transaction</button>
     </div>
 </form>
 </body>
