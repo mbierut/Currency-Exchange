@@ -27,11 +27,9 @@ public class UserEntity {
     private long id;
 
     @Column(name = "username")
-    @Pattern(regexp="^[a-zA-ZąĄćĆłŁńŃóÓśŚźŹżŻ]+", message="must be valid user name")
     private String username;
 
     @Column(name = "email")
-    @Pattern(regexp="\\S+@\\S*\\.\\S+", message="must be valid email address")
     private String email;
 
     @Column(name = "password")

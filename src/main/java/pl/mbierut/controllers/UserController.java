@@ -42,21 +42,27 @@ public class UserController {
         return "login";
     }
 
+    @GetMapping("/error-login")
+    public String gotToErrorLogin() {
+        return "error-login";
+    }
+
     @GetMapping("/register")
     public String goToRegistration() {
         return "register";
     }
 
     @PostMapping("/register")
-    public String registerNewUser(@RequestParam(name = "userName") String userName,
-                                  @RequestParam(name = "email") String email,
-                                  @RequestParam(name = "password") String password) {
+    public String registerNewUser(@RequestParam(name = "email") String email,
+                                  @RequestParam(name = "password") String password, Model model) {
 
-        UserRegistrationRequest request = new UserRegistrationRequest(userName, email, password);
+        UserRegistrationRequest request = new UserRegistrationRequest(email, email, password);
         try {
             service.registerNewUser(request);
         } catch (UserAlreadyExistsException e) {
             e.printStackTrace();
+            model.addAttribute("errorMessage", "This user already exists.");
+            return "error";
         }
         return "success";
     }

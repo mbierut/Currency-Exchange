@@ -56,14 +56,25 @@ public class TransactionController {
     public String makeOrder(@RequestParam(name = "currencyName1") String currencyName1,
                             @RequestParam(name = "amount") double amount,
                             @RequestParam(name = "currencyName2") String currencyName2,
-                            @RequestParam(name = "buyOrSell") String buyOrSellString) {
-        Currency cur1 = Currency.valueOf(currencyName1);
-        Currency cur2 = Currency.valueOf(currencyName2);
+                            @RequestParam(name = "buyOrSell") String buyOrSellString, Model model) {
+        Currency cur1;
+        Currency cur2;
+
+        try {
+            cur1 = Currency.valueOf(currencyName1);
+            cur2 = Currency.valueOf(currencyName2);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "One of specified currencies is not supported.");
+            return "error";
+        }
+
         BuyOrSell buyOrSell = BuyOrSell.valueOf(buyOrSellString);
         try {
             this.transactionService.makeOrder(new OrderRequest(new OrderEntity(new Funds(cur1, amount), cur2, buyOrSell), getCurrentUserEmail()));
         } catch (InsufficientFundsException e) {
             e.printStackTrace();
+            model.addAttribute("errorMessage", "Insufficient funds.");
             return "error";
         }
         return "success";
@@ -76,7 +87,7 @@ public class TransactionController {
 
     @PostMapping("/add-funds")
     @Transactional
-    public String addFunds(@RequestParam(name = "currencyName") String currencyName, @RequestParam(name = "amount") double amount) {
+    public String addFunds(@RequestParam(name = "currencyName") String currencyName, @RequestParam(name = "amount") double amount, Model model) {
         Currency currency = Currency.valueOf(currencyName);
         Funds funds = new Funds(currency, amount);
         UserEntity user = this.userService.getUser(getCurrentUserEmail());
@@ -95,7 +106,7 @@ public class TransactionController {
     @PostMapping("/withdraw-funds")
     @Transactional
     public String withdrawFunds(@RequestParam(name = "currencyName") String currencyName,
-                                @RequestParam(name = "amount") double amount) {
+                                @RequestParam(name = "amount") double amount, Model model) {
         Currency currency = Currency.valueOf(currencyName);
         Funds funds = new Funds(currency, amount);
         UserEntity user = this.userService.getUser(getCurrentUserEmail());
@@ -104,6 +115,7 @@ public class TransactionController {
                 user.withdrawFunds(funds);
             } catch (InsufficientFundsException e) {
                 e.printStackTrace();
+                model.addAttribute("errorMessage", "Insufficient funds.");
                 return "error";
             }
             return "success";
@@ -120,7 +132,7 @@ public class TransactionController {
     @Transactional
     public String sendFunds(@RequestParam(name = "email2") String email2,
                             @RequestParam(name = "currencyName") String currencyName,
-                            @RequestParam(name = "amount") double amount) {
+                            @RequestParam(name = "amount") double amount, Model model) {
         Currency currency = Currency.valueOf(currencyName);
         Funds funds = new Funds(currency, amount);
         UserEntity user1 = this.userService.getUser(getCurrentUserEmail());
@@ -130,10 +142,12 @@ public class TransactionController {
                 user1.sendMoney(user2, funds);
             } catch (InsufficientFundsException e) {
                 e.printStackTrace();
+                model.addAttribute("errorMessage", "Insufficient funds.");
                 return "error";
             }
             return "success";
         }
+        model.addAttribute("errorMessage", "Such user does not exist.");
         return "error";
     }
 

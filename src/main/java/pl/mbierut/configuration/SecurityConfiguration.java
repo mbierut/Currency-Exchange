@@ -27,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/error").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").failureUrl("/login-error.html").permitAll()
+                .formLogin().loginPage("/login").failureUrl("/error-login").permitAll()
                 .and()
                 .logout()
                 .and().csrf().disable();
