@@ -15,13 +15,9 @@ public class TransactionService {
     private UserRepository userRepository;
     private OrderRepository orderRepository;
 
-    public void makeOrder(OrderRequest request) {
-        try {
-            UserEntity user = this.userRepository.findByEmail(request.getUserEmail());
-            user.fulfillOrder(request.getOrder());
-        } catch (InsufficientFundsException e) {
-            e.printStackTrace();
-        }
+    public void makeOrder(OrderRequest request) throws InsufficientFundsException {
+        UserEntity user = this.userRepository.findByEmail(request.getUserEmail());
+        user.fulfillOrder(request.getOrder());
     }
 
     public String getTransactionByNumber(long number) {

@@ -27,15 +27,12 @@ public class UserEntity {
     private long id;
 
     @Column(name = "username")
-    @Pattern(regexp="^[a-zA-ZąĄćĆłŁńŃóÓśŚźŹżŻ]+", message="must be valid user name")
     private String username;
 
     @Column(name = "email")
-    @Pattern(regexp="\\S+@\\S*\\.\\S+", message="must be valid email address")
     private String email;
 
     @Column(name = "password")
-    @Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message="must contain at least 8 characters including lower, uppercase, a number and a special character")
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
