@@ -65,19 +65,6 @@ public class UserController {
         return "success";
     }
 
-    @GetMapping("/wallet")
-    public String showWallet(Model model) {
-        model.addAttribute("email", "");
-        return "wallet";
-    }
-
-    @PostMapping("/wallet")
-    public String showWalletForEmail(Model model, @RequestParam(name = "email") String email) {
-        String wallet = service.showWallet(email);
-        model.addAttribute("wallet", wallet);
-        return "wallet";
-    }
-
     private String getCurrentUserEmail() {
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
             return null;

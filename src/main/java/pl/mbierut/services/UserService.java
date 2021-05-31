@@ -3,7 +3,6 @@ package pl.mbierut.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.mbierut.database.entities.UserEntity;
@@ -25,14 +24,6 @@ public class UserService {
         }
         this.repository.save(new UserEntity(request.getUserName(), request.getEmail(), passwordEncoder.encode(request.getPassword())));
         logger.info("Added a new user: {} at {}", request.getUserName(), request.getEmail());
-    }
-
-    public String showWallet(String email) {
-        UserEntity user = this.repository.findByEmail(email);
-        if (user == null) {
-            return null;
-        }
-        return user.getWalletEntries().toString();
     }
 
     public UserEntity getUser(String email) {

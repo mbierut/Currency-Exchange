@@ -3,6 +3,7 @@ package pl.mbierut.models.enums;
 import pl.mbierut.clients.CurrencyRestClient;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public enum Currency {
@@ -28,7 +29,7 @@ public enum Currency {
         return -1.0;
     }
 
-    public static List<String[]> getRateTable(){
+    public static List<String[]> getRateTable() {
         CurrencyRestClient client = new CurrencyRestClient();
         try {
             return client.getExchangeRatesTable();
@@ -36,5 +37,13 @@ public enum Currency {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static List<String> getCurrencyNames() {
+        List<String> list = new ArrayList<>();
+        for (Currency currency : Currency.values()) {
+            list.add(currency.name());
+        }
+        return list;
     }
 }

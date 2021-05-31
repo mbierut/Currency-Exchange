@@ -1,6 +1,7 @@
 package pl.mbierut.database.entities;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import pl.mbierut.models.Funds;
 import pl.mbierut.models.enums.BuyOrSell;
 import pl.mbierut.models.enums.Currency;
@@ -38,7 +39,7 @@ public class OrderEntity {
         this.date = LocalDateTime.now();
     }
 
-    public OrderEntity(){
+    public OrderEntity() {
         this.date = LocalDateTime.now();
     }
 

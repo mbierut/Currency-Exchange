@@ -20,6 +20,8 @@ import pl.mbierut.models.requests.OrderRequest;
 import pl.mbierut.services.TransactionService;
 import pl.mbierut.services.UserService;
 
+import java.util.List;
+
 @Controller
 public class TransactionController {
     private WalletEntryRepository walletEntryRepository;
@@ -78,13 +80,15 @@ public class TransactionController {
     }
 
     @GetMapping("/add-funds")
-    public String prepareFundsToAdd() {
+    public String prepareFundsToAdd(Model model) {
+        List<String> currencyNames = Currency.getCurrencyNames();
+        model.addAttribute("currencyNames", currencyNames);
         return "add-funds";
     }
 
     @PostMapping("/add-funds")
     @Transactional
-    public String addFunds(@RequestParam(name = "currencyName") String currencyName, @RequestParam(name = "amount") double amount, Model model) {
+    public String addFunds(@RequestParam(name = "currencyName") String currencyName, @RequestParam(name = "amount") double amount) {
         Currency currency = Currency.valueOf(currencyName);
         Funds funds = new Funds(currency, amount);
         UserEntity user = this.userService.getUser(getCurrentUserEmail());
@@ -96,7 +100,9 @@ public class TransactionController {
     }
 
     @GetMapping("/withdraw-funds")
-    public String prepareFundsToWithdraw() {
+    public String prepareFundsToWithdraw(Model model) {
+        List<String> currencyNames = Currency.getCurrencyNames();
+        model.addAttribute("currencyNames", currencyNames);
         return "withdraw-funds";
     }
 
@@ -121,7 +127,9 @@ public class TransactionController {
     }
 
     @GetMapping("/send-funds")
-    public String prepareFundsToSend() {
+    public String prepareFundsToSend(Model model) {
+        List<String> currencyNames = Currency.getCurrencyNames();
+        model.addAttribute("currencyNames", currencyNames);
         return "send-funds";
     }
 

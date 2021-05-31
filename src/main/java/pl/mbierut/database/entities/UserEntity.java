@@ -10,7 +10,6 @@ import pl.mbierut.models.enums.BuyOrSell;
 import pl.mbierut.models.enums.Currency;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 

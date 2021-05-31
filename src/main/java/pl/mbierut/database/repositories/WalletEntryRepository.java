@@ -6,5 +6,5 @@ import pl.mbierut.database.entities.WalletEntryEntity;
 import java.util.List;
 
 public interface WalletEntryRepository extends CrudRepository<WalletEntryEntity, Long> {
-    public List<WalletEntryEntity> findByUser_Email(String username);
+    List<WalletEntryEntity> findByUser_Email(String username);
 }
