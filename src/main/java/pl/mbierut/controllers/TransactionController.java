@@ -47,8 +47,9 @@ public class TransactionController {
 
     @GetMapping("/order")
     public String prepareOrder(Model model) {
+        List<String[]> listOfCurrencies = Currency.getRateTable();
         List<String> currencyNames = Currency.getCurrencyNames();
-        model.addAttribute("currencyNames", currencyNames);
+        model.addAttribute("currencyNames", currencyNames).addAttribute("listOfCurrencies", listOfCurrencies);
         return "order";
     }
 
